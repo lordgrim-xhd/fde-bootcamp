@@ -13,3 +13,12 @@ for i in range(5):
     total=total+scores[i]
 p=total/len(scores)
 print(f"总分{total},平均分{p}")
+score=int(input("请输入分数："))
+if score >= 90:
+    print("优秀")
+elif score >=60:
+    print("及格")
+else:
+    print("不及格")
+
+
