@@ -66,15 +66,13 @@ def print_report(students, stats):
     print(f"总分：{stats['total']}    平均：{stats['average']:.2f}")
     print(f"最高：{stats['max_score']}（{stats['max_name']}）    最低：{stats['min_score']}（{stats['min_name']}）")
     print(f"及格人数：{stats['pass_count']}/{len(students)}    及格率：{stats['pass_rate']:.1f}%")
-
-students = [
+if __name__ == "__main__":
+    students = [
     {"name": "张三", "score": 88},
     {"name": "李四", "score": 92},
     {"name": "王五", "score": 75},
     {"name": "赵六", "score": 58},
-]
-
-stats = analyze(students)
-print_report(students, stats)
-
-
+ ]
+    
+    stats = analyze(students)
+    print_report(students, stats)
