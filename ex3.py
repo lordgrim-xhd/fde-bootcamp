@@ -3,6 +3,10 @@
 # 已验证：打乱数据顺序后，最高/最低分仍然正确
 def analyze(students):
     """一次遍历，返回所有统计数字"""
+    if not students:
+        raise ValueError("学生列表不能为空")
+    ...
+
 
     # ===== ① 初始化：全部 4 格缩进 =====
     total = 0
@@ -41,14 +45,7 @@ def analyze(students):
         "pass_count": count,
         "pass_rate": pass_rate,
     }
-def print_report(students, stats):
-    """打印成绩报表"""
-    print("=" * 36)
-    print(f"{'姓名':<10}{'分数':>8}{'等级':>10}")
-    print("-" * 36)
-
-    
-    def get_level(score):  
+def get_level(score):  
             if score >= 90:
                 return"优秀"
             elif score>=60:
@@ -56,6 +53,14 @@ def print_report(students, stats):
                 return"及格"
             else:
                 return"不及格"
+def print_report(students, stats):
+    """打印成绩报表"""
+    print("=" * 36)
+    print(f"{'姓名':<10}{'分数':>8}{'等级':>10}")
+    print("-" * 36)
+
+    
+    
     for s in students:
         level=get_level(s["score"])
         print(f"{s['name']:<10}{s['score']:>8}{level:>10}")
