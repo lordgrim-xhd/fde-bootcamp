@@ -1,0 +1,30 @@
+# ---- Python 自动生成的缓存 ----
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ---- 测试工具 ----
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ---- 日志（运行时产生，不该进仓库）----
+*.log
+app.log
+
+# ---- 测试过程产生的临时文件 ----
+bad.json
+
+# ---- 编辑器 ----
+.vscode/
+.idea/
+*.swp
+
+# ---- 操作系统 ----
+Thumbs.db
+.DS_Store
+
+# ---- 虚拟环境 ----
+.venv/
+venv/
+env/
