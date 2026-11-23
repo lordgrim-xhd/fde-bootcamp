@@ -22,6 +22,9 @@
 | `ex6.py` | JSON 读写 | `json.dump/load`、类型保留 |
 | `ex7.py` | while 循环 | `while` / `break`、猜数字游戏 |
 | `ex8.py` | 带日志的数据加载 | `logging` 分级、双输出 |
+| `ex9.py` | SQLite 入门 | 建表、参数化插入、`SELECT` / `WHERE` |
+| `ex10.py` | SQL 进阶 | `ORDER BY`、聚合函数、`GROUP BY` / `HAVING` |
+| `ex11.py` | 数据库 → 报表 | 分层设计、`row_factory`、幂等初始化 |
 | `test_ex3.py` | 单元测试 | pytest、边界值、异常断言 |
 | `demo_csv_reader.py` | CSV 读取方式对比 | `csv.reader` vs `DictReader` |
 | `students.csv` | 示例数据 | CSV 格式 |
@@ -61,10 +64,10 @@ python demo_csv_reader.py
 | 11/16 | 异常处理三层防护、边界测试 |
 | 11/17 | JSON 序列化、编码问题排查 |
 | 11/18 | `while` 循环、pytest 入门 |
-| 11/22 | logging、仓库整理（`.gitignore`） |
+| 11/22 | logging、仓库整理（`.gitignore`）、SQL 入门 |
+| 11/23 | SQL 进阶（分组统计）、数据库接回报表程序 |
 
 ## 下一步
 
-- SQL 基础
 - 调用 LLM API，构建第一个 CLI 工具
 - RAG 检索系统（主项目）
