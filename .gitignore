@@ -34,3 +34,8 @@ Thumbs.db
 .venv/
 venv/
 env/
+
+# ---- 密钥与本地配置（绝对不要提交）----
+.env
+.env.local
+

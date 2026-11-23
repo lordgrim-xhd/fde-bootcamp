@@ -25,10 +25,27 @@
 | `ex9.py` | SQLite 入门 | 建表、参数化插入、`SELECT` / `WHERE` |
 | `ex10.py` | SQL 进阶 | `ORDER BY`、聚合函数、`GROUP BY` / `HAVING` |
 | `ex11.py` | 数据库 → 报表 | 分层设计、`row_factory`、幂等初始化 |
+| `ex12.py` | 第一次调用大模型 | OpenAI 兼容接口、`.env` 密钥管理、token 计量 |
+| `ex13.py` | hello-llm 命令行工具 | `sys.argv`、`system` prompt、输出长度控制 |
 | `test_ex3.py` | 单元测试 | pytest、边界值、异常断言 |
 | `demo_csv_reader.py` | CSV 读取方式对比 | `csv.reader` vs `DictReader` |
 | `students.csv` | 示例数据 | CSV 格式 |
 | `students.json` | 示例数据 | JSON 格式（同一份数据的另一种表示） |
+
+## 配置
+
+调用大模型需要 API Key，本项目通过 `.env` 管理，**密钥不进仓库**。
+
+```bash
+# 1. 复制模板
+cp .env.example .env
+
+# 2. 填入自己的 key
+#    DEEPSEEK_API_KEY=sk-xxxxx
+
+# 3. 确认它被忽略（应该输出一行匹配规则）
+git check-ignore -v .env
+```
 
 ## 运行
 
@@ -41,6 +58,10 @@ python -m pytest test_ex3.py -v
 
 # CSV 读取方式对比演示
 python demo_csv_reader.py
+
+# 大模型调用（需要先配置 .env）
+python ex12.py
+python ex13.py "什么是向量数据库"
 ```
 
 ## 代码特点
