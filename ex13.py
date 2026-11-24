@@ -1,5 +1,7 @@
 import os
 import sys
+
+import logging
 import time
 
 from dotenv import load_dotenv
@@ -13,6 +15,21 @@ from openai import (
 )
 
 load_dotenv()
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s %(message)s",
+    datefmt="%H:%M:%S",
+    handlers=[
+        logging.FileHandler("llm.log", encoding="utf-8"),
+        logging.StreamHandler(),
+    ],
+)
+
+for _name in ("httpx", "httpx2", "openai", "urllib3"):
+    logging.getLogger(_name).setLevel(logging.WARNING)
+logging.getLogger(__name__) 
+logger = logging.getLogger(__name__) 
+
 
 client = OpenAI(
     api_key=os.environ["DEEPSEEK_API_KEY"],
@@ -26,6 +43,7 @@ DEFAULT_SYSTEM = "你是一个简洁的技术助理。回答控制在三句话�
 
 def ask(question, system=DEFAULT_SYSTEM, max_attempts=3):
     """问一个问题。成功返回 (回答, 用量)，失败返回 (None, None)。"""
+    logger.info(f"提问: {question}")
     messages = [
         {"role": "system", "content": system},
         {"role": "user", "content": question},
@@ -33,36 +51,50 @@ def ask(question, system=DEFAULT_SYSTEM, max_attempts=3):
 
     for attempt in range(1, max_attempts + 1):
         try:
+            start = time.time()
             resp = client.chat.completions.create(
                 model="deepseek-chat",
                 messages=messages,
             )
+            
+            
+            elapsed = time.time() - start
+            logger.info(
+            f"成功 | 耗时 {elapsed:.1f}s | "
+            f"输入 {resp.usage.prompt_tokens} / 输出 {resp.usage.completion_tokens} / "
+            f"合计 {resp.usage.total_tokens}"
+)
             return resp.choices[0].message.content, resp.usage
 
         except AuthenticationError:
-            print("❌ API Key 无效或已过期，请检查 .env")
+            logger.error("API Key 无效")
             return None, None
 
         except RateLimitError:
             wait = 2 ** attempt
-            print(f"⚠️ 请求太频繁，{wait} 秒后重试（第 {attempt}/{max_attempts} 次）")
+            logger.warning(f"请求太频繁，{wait} 秒后重试（第 {attempt}/{max_attempts}")
+            
             time.sleep(wait)
 
         except (APIConnectionError, APITimeoutError):
             wait = 2 ** attempt
-            print(f"⚠️ 网络问题，{wait} 秒后重试（第 {attempt}/{max_attempts} 次）")
+            logger.warning(f"网络问题，{wait} 秒后重试（第 {attempt}/{max_attempts} 次）")
+            
             time.sleep(wait)
 
         except APIStatusError as e:
             if e.status_code >= 500:
                 wait = 2 ** attempt
-                print(f"⚠️ 服务端错误 {e.status_code}，{wait} 秒后重试")
+                logger.warning(f"服务端错误 {e.status_code}，{wait} 秒后重试")
+                
                 time.sleep(wait)
             else:
-                print(f"❌ 请求被拒绝（{e.status_code}）：{e.message}")
+                logger.error(f"请求被拒绝（{e.status_code}）：{e.message}")
+               
                 return None, None
 
-    print(f"❌ 重试 {max_attempts} 次都失败，放弃")
+    logging.error(f"重试 {max_attempts} 次都失败，放弃")
+    
     return None, None
 
 
